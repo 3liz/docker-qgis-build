@@ -6,13 +6,13 @@ MAINTAINER David Marteau <david.marteau@3liz.com>
 
 LABEL Description="Docker container with QGIS dependencies" Vendor="3liz.org" Version="1.0"
 
-ENV CORES 6
+ENV DEBIAN_FRONTEND noninteractive
 
-RUN  apt-get update \
+RUN  export DEBIAN_FRONTEND=noninteractive && dpkg-divert --local --rename --add /sbin/initctl \
+  &&  apt-get update \
   && apt-get install -y software-properties-common \
-  && add-apt-repository ppa:ubuntugis/ubuntugis-unstable \
   && apt-get update \
-  && apt-get install -y \
+  && apt-get install -y --no-install-recommends \
     bison \
     ca-certificates \
     ccache \
@@ -93,6 +93,7 @@ RUN  apt-get update \
     future \
     termcolor \
   && apt-get autoremove -y python3-pip python2.7 \
+  && apt-get autoremove -y --purge exim4  exim4-base exim4-config exim4-daemon-light \
   && apt-get clean
 
 RUN echo "alias python=python3" >> ~/.bash_aliases
