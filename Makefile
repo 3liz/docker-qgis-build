@@ -24,7 +24,7 @@ manifest:
 	@echo "TODO: Create manifest"
 
 build: manifest
-	docker build --force-rm $(BUILD_ARGS) -t $(BUILDIMAGE) .
+	docker build --rm --force-rm $(BUILD_ARGS) -t $(BUILDIMAGE) .
 	@echo $(VERSION_TAG) > .build
 
 test:
