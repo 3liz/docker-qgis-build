@@ -47,6 +47,7 @@ RUN  export DEBIAN_FRONTEND=noninteractive && dpkg-divert --local --rename --add
     libzip-dev \
     lighttpd \
     locales \
+    make \
     ninja-build \
     pkg-config \
     poppler-utils \
@@ -92,7 +93,7 @@ RUN  export DEBIAN_FRONTEND=noninteractive && dpkg-divert --local --rename --add
     mock \
     future \
     termcolor \
-  && apt-get autoremove -y python3-pip python2.7 \
+  && apt-get autoremove -y python3-pip \
   && apt-get autoremove -y --purge exim4  exim4-base exim4-config exim4-daemon-light \
   && apt-get clean
 

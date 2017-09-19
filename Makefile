@@ -18,13 +18,13 @@ BUILD_ARGS += --build-arg REGISTRY_PREFIX=$(REGISTRY_PREFIX)
 endif
 
 BUILDIMAGE=$(NAME):$(VERSION_TAG)
-ARCHIVENAME=$(shell echo $(BUILDIMAGE)|tr '[:./]' '_') 
+ARCHIVENAME=$(shell echo $(BUILDIMAGE)|tr '[:./]' '_')
 
 manifest:
 	@echo "TODO: Create manifest"
 
 build: manifest
-	docker build --rm --force-rm $(BUILD_ARGS) -t $(BUILDIMAGE) .
+	docker build --rm --force-rm --no-cache $(BUILD_ARGS) -t $(BUILDIMAGE) .
 	@echo $(VERSION_TAG) > .build
 
 test:
