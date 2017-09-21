@@ -1,6 +1,6 @@
 # Docker build dependencies
 
-Create an image based on debian/stretch for buildin dependencies.
+Create an image based on debian/stretch for qgis build dependencies.
 
 ## Running as a standalone container
 
