@@ -20,12 +20,11 @@ endif
 BUILDIMAGE=$(NAME):$(VERSION_TAG)-$(COMMITID)
 ARCHIVENAME=$(shell echo $(NAME):$(VERSION_TAG)|tr '[:./]' '_')
 
-all: build test archive deliver clean
+all:
+	@echo "Usage: make [build|archive|deliver|clean]"
 
 manifest:
-	@touch build.manifest
-	echo "@@@" >> build.manifest && \
-    echo name=$(NAME) && \
+	echo name=$(NAME) > build.manifest && \
     echo version=$(VERSION)   >> build.manifest && \
     echo buildid=$(BUILDID)   >> build.manifest && \
     echo commitid=$(COMMITID) >> build.manifest
@@ -34,21 +33,21 @@ build: manifest
 	docker build --rm --force-rm --no-cache $(BUILD_ARGS) -t $(BUILDIMAGE) .
 
 test:
-	@echo: No tests defined !
+	@echo No tests defined !
 
 archive:
-	docker save $(BUILDIMAGE) | bzip2 > $(DOCKER_ARCHIVE_PATH)/$(ARCHIVENAME).bz2
+	docker save $(BUILDIMAGE) | bzip2 > $(FACTORY_ARCHIVE_PATH)/$(ARCHIVENAME).bz2
 
 deliver:
-	docker tag $(BUILDIMAGE)-$(COMMITID) $(REGISTRY_URL):$(NAME):$(VERSION)
-	docker tag $(BUILDIMAGE)-$(COMMITID) $(REGISTRY_URL):$(NAME):$(VERSION_SHORT)
-	docker tag $(BUILDIMAGE)-$(COMMITID) $(REGISTRY_URL):$(NAME):latest
-	docker push $(REGISTRY_URL):$(NAME):$(VERSION)
-	docker push $(REGISTRY_URL):$(NAME):$(VERSION_SHORT)
-	docker push $(REGISTRY_URL):$(NAME):latest
+	docker tag $(BUILDIMAGE) $(REGISTRY_URL)/$(NAME):$(VERSION)
+	docker tag $(BUILDIMAGE) $(REGISTRY_URL)/$(NAME):$(VERSION_SHORT)
+	docker tag $(BUILDIMAGE) $(REGISTRY_URL)/$(NAME):latest
+	docker push $(REGISTRY_URL)/$(NAME):$(VERSION)
+	docker push $(REGISTRY_URL)/$(NAME):$(VERSION_SHORT)
+	docker push $(REGISTRY_URL)/$(NAME):latest
 
 clean:
-	docker rmi -f $(shell docker images $(BUILDIMAGE)-$(COMMITID) -q)
+	docker rmi -f $(shell docker images $(BUILDIMAGE))
     
 
 
