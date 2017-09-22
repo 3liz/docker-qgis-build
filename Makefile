@@ -27,7 +27,8 @@ manifest:
 	echo name=$(NAME) > build.manifest && \
     echo version=$(VERSION)   >> build.manifest && \
     echo buildid=$(BUILDID)   >> build.manifest && \
-    echo commitid=$(COMMITID) >> build.manifest
+    echo commitid=$(COMMITID) >> build.manifest && \
+    echo archive=$(ARCHIVENAME)
 
 build: manifest
 	docker build --rm --force-rm --no-cache $(BUILD_ARGS) -t $(BUILDIMAGE) .
@@ -47,7 +48,7 @@ deliver:
 	docker push $(REGISTRY_URL)/$(NAME):latest
 
 clean:
-	docker rmi -f $(shell docker images $(BUILDIMAGE))
+	docker rmi -f $(shell docker images $(BUILDIMAGE) -q)
     
 
 
