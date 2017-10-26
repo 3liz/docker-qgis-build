@@ -25,10 +25,10 @@ all:
 
 manifest:
 	echo name=$(NAME) > factory.manifest && \
-    echo version=$(VERSION)   >> build.manifest && \
-    echo buildid=$(BUILDID)   >> build.manifest && \
-    echo commitid=$(COMMITID) >> build.manifest && \
-    echo archive=$(ARCHIVENAME)
+    echo version=$(VERSION)   >> factory.manifest && \
+    echo buildid=$(BUILDID)   >> factory.manifest && \
+    echo commitid=$(COMMITID) >> factory.manifest && \
+    echo archive=$(ARCHIVENAME) >> factory.manifest 
 
 build: manifest
 	docker build --rm --force-rm --no-cache $(BUILD_ARGS) -t $(BUILDIMAGE) .
