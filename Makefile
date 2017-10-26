@@ -24,7 +24,7 @@ all:
 	@echo "Usage: make [build|archive|deliver|clean]"
 
 manifest:
-	echo name=$(NAME) > build.manifest && \
+	echo name=$(NAME) > factory.manifest && \
     echo version=$(VERSION)   >> build.manifest && \
     echo buildid=$(BUILDID)   >> build.manifest && \
     echo commitid=$(COMMITID) >> build.manifest && \

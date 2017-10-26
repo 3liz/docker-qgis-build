@@ -10,14 +10,13 @@ ENV DEBIAN_FRONTEND noninteractive
 
 RUN  export DEBIAN_FRONTEND=noninteractive && dpkg-divert --local --rename --add /sbin/initctl \
   &&  apt-get update \
-  && apt-get install -y software-properties-common \
+  && apt-get install -y software-properties-common ca-certificates --no-install-recommends \
   && apt-get install -y --no-install-recommends \
     python3-setuptools \
-  && apt-get easy_install3 pip \
-  && apt-get remove python3-setuptools \
+  && easy_install3 pip \
+  && apt-get remove -y python3-setuptools \
   && apt-get install -y --no-install-recommends \
     bison \
-    ca-certificates \
     ccache \
     clang \
     cmake \
