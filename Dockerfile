@@ -11,7 +11,10 @@ ENV DEBIAN_FRONTEND noninteractive
 RUN  export DEBIAN_FRONTEND=noninteractive && dpkg-divert --local --rename --add /sbin/initctl \
   &&  apt-get update \
   && apt-get install -y software-properties-common \
-  && apt-get update \
+  && apt-get install -y --no-install-recommends \
+    python3-setuptools \
+  && apt-get easy_install3 pip \
+  && apt-get remove python3-setuptools \
   && apt-get install -y --no-install-recommends \
     bison \
     ca-certificates \
@@ -61,7 +64,6 @@ RUN  export DEBIAN_FRONTEND=noninteractive && dpkg-divert --local --rename --add
     python3-gdal \
     python3-mock \
     python3-nose2 \
-    python3-pip \
     python3-psycopg2 \
     python3-pyqt5 \
     python3-pyqt5.qsci \
