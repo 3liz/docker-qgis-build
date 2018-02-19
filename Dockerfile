@@ -92,6 +92,7 @@ RUN  export DEBIAN_FRONTEND=noninteractive && dpkg-divert --local --rename --add
     xfonts-base \
     xfonts-scalable \
     xvfb \
+  && pip3 install setuptools \
   && pip3 install \
     psycopg2 \
     numpy  \
