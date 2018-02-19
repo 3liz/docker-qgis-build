@@ -66,10 +66,6 @@ RUN  export DEBIAN_FRONTEND=noninteractive && dpkg-divert --local --rename --add
     python3-jinja2 \
     python3-markupsafe \
     python3-mock \
-    python3-nose2 \
-    python3-owslib \
-    python3-plotly \
-    python3-psycopg2 \
     python3-pygments \
     python3-pyproj \
     python3-pyqt5 \
@@ -81,8 +77,6 @@ RUN  export DEBIAN_FRONTEND=noninteractive && dpkg-divert --local --rename --add
     python3-six \
     python3-termcolor \
     python3-tz \
-    python3-yaml \
-    python3-numpy \
     qt5-default \
     qt5keychain-dev \
     qtbase5-dev \
@@ -98,6 +92,12 @@ RUN  export DEBIAN_FRONTEND=noninteractive && dpkg-divert --local --rename --add
     xfonts-base \
     xfonts-scalable \
     xvfb \
+  && pip3 install \
+    psycopg2 \
+    numpy  \
+    owslib \
+    pyyaml \
+    nose2  \
   && apt-get autoremove -y --purge exim4  exim4-base exim4-config exim4-daemon-light \
   && apt-get clean
 
