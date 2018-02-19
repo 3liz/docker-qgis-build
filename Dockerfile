@@ -58,20 +58,32 @@ RUN  export DEBIAN_FRONTEND=noninteractive && dpkg-divert --local --rename --add
     pyqt5-dev-tools \
     pyqt5.qsci-dev \
     python3-all-dev \
+    python3-dateutil \
     python3-dev \
     python3-future \
     python3-gdal \
+    python3-httplib2 \
+    python3-jinja2 \
+    python3-markupsafe \
     python3-mock \
     python3-nose2 \
+    python3-owslib \
+    python3-plotly \
     python3-psycopg2 \
+    python3-pygments \
+    python3-pyproj \
     python3-pyqt5 \
     python3-pyqt5.qsci \
     python3-pyqt5.qtsql \
     python3-pyqt5.qtsvg \
     python3-sip \
     python3-sip-dev \
+    python3-six \
     python3-termcolor \
+    python3-tz \
     python3-yaml \
+    python3-numpy \
+    qt5-default \
     qt5keychain-dev \
     qtbase5-dev \
     qtpositioning5-dev \
@@ -86,18 +98,9 @@ RUN  export DEBIAN_FRONTEND=noninteractive && dpkg-divert --local --rename --add
     xfonts-base \
     xfonts-scalable \
     xvfb \
-  && pip3 install \
-    psycopg2 \
-    numpy \
-    nose2 \
-    pyyaml \
-    mock \
-    future \
-    termcolor \
   && apt-get autoremove -y --purge exim4  exim4-base exim4-config exim4-daemon-light \
   && apt-get clean
 
-RUN echo "alias python=python3" >> ~/.bash_aliases
 
 ENV CC=/usr/lib/ccache/clang
 ENV CXX=/usr/lib/ccache/clang++

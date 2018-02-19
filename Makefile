@@ -7,7 +7,7 @@ NAME=qgis3-build-deps
 BUILDID=$(shell date +"%Y%m%d%H%M")
 COMMITID=$(shell git rev-parse --short HEAD)
 
-VERSION=1.0
+VERSION=1.1
 VERSION_SHORT=1
 
 VERSION_TAG=$(VERSION)
