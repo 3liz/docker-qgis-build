@@ -25,7 +25,6 @@ RUN  export DEBIAN_FRONTEND=noninteractive && dpkg-divert --local --rename --add
     gdal-bin \
     git \
     graphviz \
-    grass-dev \
     libexpat1-dev \
     libfcgi-dev \
     libgdal-dev \
