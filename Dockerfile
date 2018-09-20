@@ -40,6 +40,7 @@ RUN  export DEBIAN_FRONTEND=noninteractive && dpkg-divert --local --rename --add
     libqt5svg5-dev \
     libqt5webkit5-dev \
     libqt5xmlpatterns5-dev \
+    libqt5serialport5-dev \
     libqwt-qt5-dev \
     libspatialindex-dev \
     libspatialite-dev \
