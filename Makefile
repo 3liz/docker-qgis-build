@@ -2,23 +2,20 @@
 # Build docker image
 #
 
-NAME=qgis3-build-deps
+NAME=qgis-build-deps
 
 BUILDID=$(shell date +"%Y%m%d%H%M")
 COMMITID=$(shell git rev-parse --short HEAD)
 
 VERSION=1.1
-VERSION_SHORT=1
-
-VERSION_TAG=$(VERSION)
 
 ifdef REGISTRY_URL
 REGISTRY_PREFIX=$(REGISTRY_URL)/
 BUILD_ARGS += --build-arg REGISTRY_PREFIX=$(REGISTRY_PREFIX)
 endif
 
-BUILDIMAGE=$(NAME):$(VERSION_TAG)-$(COMMITID)
-ARCHIVENAME=$(shell echo $(NAME):$(VERSION_TAG)|tr '[:./]' '_')
+BUILDIMAGE=$(NAME):$(VERSION)-$(COMMITID)
+ARCHIVENAME=$(shell echo $(NAME):$(VERSION)|tr '[:./]' '_')
 
 all:
 	@echo "Usage: make [build|archive|deliver|clean]"
@@ -41,12 +38,10 @@ archive:
 
 tag:
 	docker tag $(BUILDIMAGE) $(REGISTRY_PREFIX)$(NAME):$(VERSION)
-	docker tag $(BUILDIMAGE) $(REGISTRY_PREFIX)$(NAME):$(VERSION_SHORT)
 	docker tag $(BUILDIMAGE) $(REGISTRY_PREFIX)$(NAME):latest
 
 deliver:
 	docker push $(REGISTRY_URL)/$(NAME):$(VERSION)
-	docker push $(REGISTRY_URL)/$(NAME):$(VERSION_SHORT)
 	docker push $(REGISTRY_URL)/$(NAME):latest
 
 clean:

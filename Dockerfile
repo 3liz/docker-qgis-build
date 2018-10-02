@@ -10,8 +10,9 @@ ENV DEBIAN_FRONTEND noninteractive
 
 RUN  export DEBIAN_FRONTEND=noninteractive && dpkg-divert --local --rename --add /sbin/initctl \
   &&  apt-get update \
-  && apt-get install -y software-properties-common ca-certificates --no-install-recommends \
   && apt-get install -y --no-install-recommends \
+    software-properties-common \
+    ca-certificates \
     python3-setuptools \
   && easy_install3 pip \
   && apt-get remove -y python3-setuptools \
@@ -34,11 +35,18 @@ RUN  export DEBIAN_FRONTEND=noninteractive && dpkg-divert --local --rename --add
     libproj-dev \
     libqca-qt5-2-dev \
     libqca-qt5-2-plugins \
+    libqt53drender5 \
+    libqt5concurrent5 \
     libqt5opengl5-dev \
+    libqt5positioning5 \
+    libqt5qml5 \
+    libqt5quick5 \
+    libqt5quickcontrols2-5 \
     libqt5scintilla2-dev \
     libqt5sql5-sqlite \
     libqt5svg5-dev \
     libqt5webkit5-dev \
+    libqt5xml5 \
     libqt5xmlpatterns5-dev \
     libqt5serialport5-dev \
     libqwt-qt5-dev \
@@ -79,6 +87,8 @@ RUN  export DEBIAN_FRONTEND=noninteractive && dpkg-divert --local --rename --add
     python3-tz \
     qt5-default \
     qt5keychain-dev \
+    qt3d5-dev \
+    qt3d-gltfsceneio-plugin \
     qtbase5-dev \
     qtpositioning5-dev \
     qtscript5-dev \
@@ -92,13 +102,18 @@ RUN  export DEBIAN_FRONTEND=noninteractive && dpkg-divert --local --rename --add
     xfonts-base \
     xfonts-scalable \
     xvfb \
-  && pip3 install setuptools \
+    gosu \
+    unzip \
+  && pip3 install setuptools wheel \
   && pip3 install \
     psycopg2 \
     numpy  \
     owslib \
     pyyaml \
     nose2  \
+    future \
+    oauthlib \
+    pyopenssl \
   && apt-get autoremove -y --purge exim4  exim4-base exim4-config exim4-daemon-light \
   && apt-get clean
 
@@ -107,6 +122,4 @@ ENV CC=/usr/lib/ccache/clang
 ENV CXX=/usr/lib/ccache/clang++
 ENV QT_SELECT=5
 ENV LANG=C.UTF-8
-
-CMD /root/src/docker-build-test.sh
 
