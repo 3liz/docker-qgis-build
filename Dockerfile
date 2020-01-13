@@ -1,20 +1,20 @@
 # Need docker above v17-05.0-ce
-ARG REGISTRY_PREFIX=''
+FROM  ubuntu:bionic
 
-FROM  ${REGISTRY_PREFIX}debian:stretch
 MAINTAINER David Marteau <david.marteau@3liz.com>
 
-LABEL Description="Docker container with QGIS dependencies" Vendor="3liz.org" Version="1.0"
+LABEL Description="Docker container with QGIS build dependencies" Vendor="3liz.org" Version="1.0"
 
 ENV DEBIAN_FRONTEND noninteractive
 
-RUN  export DEBIAN_FRONTEND=noninteractive && dpkg-divert --local --rename --add /sbin/initctl \
-  &&  apt-get update \
+RUN export DEBIAN_FRONTEND=noninteractive && dpkg-divert --local --rename --add /sbin/initctl \
+  && apt-get update \
   && apt-get install -y --no-install-recommends \
     software-properties-common \
     ca-certificates \
     python3-setuptools \
-  && easy_install3 pip \
+  && add-apt-repository ppa:git-core/ppa && apt-get update \
+  && python3 -m easy_install pip \
   && apt-get remove -y python3-setuptools \
   && apt-get install -y --no-install-recommends \
     bison \
@@ -55,6 +55,7 @@ RUN  export DEBIAN_FRONTEND=noninteractive && dpkg-divert --local --rename --add
     libsqlite3-dev \
     libsqlite3-mod-spatialite \
     libzip-dev \
+    libexiv2-dev \
     lighttpd \
     locales \
     make \
@@ -70,6 +71,7 @@ RUN  export DEBIAN_FRONTEND=noninteractive && dpkg-divert --local --rename --add
     python3-dev \
     python3-future \
     python3-gdal \
+    python3-psycopg2 \
     python3-httplib2 \
     python3-jinja2 \
     python3-markupsafe \
@@ -85,6 +87,7 @@ RUN  export DEBIAN_FRONTEND=noninteractive && dpkg-divert --local --rename --add
     python3-six \
     python3-termcolor \
     python3-tz \
+    python3-numpy \
     qt5-default \
     qt5keychain-dev \
     qt3d5-dev \
@@ -101,25 +104,32 @@ RUN  export DEBIAN_FRONTEND=noninteractive && dpkg-divert --local --rename --add
     xfonts-75dpi \
     xfonts-base \
     xfonts-scalable \
-    xvfb \
-    gosu \
+    xvfb  \
+    gosu  \
     unzip \
-  && pip3 install setuptools wheel \
+    libgl1-mesa-dri \
+    bash-completion \
+  && apt-get autoremove -y --purge exim4  exim4-base exim4-config exim4-daemon-light \
+  && apt-get clean
+
+RUN pip3 install setuptools wheel \
   && pip3 install \
-    psycopg2 \
-    numpy  \
     owslib \
     pyyaml \
     nose2  \
     future \
     oauthlib \
-    pyopenssl \
-  && apt-get autoremove -y --purge exim4  exim4-base exim4-config exim4-daemon-light \
-  && apt-get clean
+    pyopenssl
 
+COPY scripts/ /usr/local/bin/
+
+# Set uid root on Xvfb
+RUN chmod u+s /usr/bin/Xvfb
 
 ENV CC=/usr/lib/ccache/clang
 ENV CXX=/usr/lib/ccache/clang++
 ENV QT_SELECT=5
 ENV LANG=C.UTF-8
+
+ENTRYPOINT /usr/local/bin/docker-entrypoint.sh
 

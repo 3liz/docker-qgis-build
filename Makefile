@@ -1,5 +1,6 @@
 # 
-# Build docker image
+# Docker image build dependencies based
+# on ubuntu:bionic
 #
 
 NAME=qgis-build-deps
@@ -7,44 +8,22 @@ NAME=qgis-build-deps
 BUILDID=$(shell date +"%Y%m%d%H%M")
 COMMITID=$(shell git rev-parse --short HEAD)
 
-VERSION=1.1
-
-ifdef REGISTRY_URL
-REGISTRY_PREFIX=$(REGISTRY_URL)/
-BUILD_ARGS += --build-arg REGISTRY_PREFIX=$(REGISTRY_PREFIX)
-endif
+VERSION=bionic
 
 BUILDIMAGE=$(NAME):$(VERSION)-$(COMMITID)
-ARCHIVENAME=$(shell echo $(NAME):$(VERSION)|tr '[:./]' '_')
 
 all:
-	@echo "Usage: make [build|archive|deliver|clean]"
+	@echo "Usage: make [build|clean|clean-all]"
 
-manifest:
-	echo name=$(NAME) > factory.manifest && \
-    echo version=$(VERSION)   >> factory.manifest && \
-    echo buildid=$(BUILDID)   >> factory.manifest && \
-    echo commitid=$(COMMITID) >> factory.manifest && \
-    echo archive=$(ARCHIVENAME) >> factory.manifest 
 
-build: manifest
-	docker build --rm --force-rm --no-cache $(BUILD_ARGS) -t $(BUILDIMAGE) .
-
-test:
-	@echo No tests defined !
-
-archive:
-	docker save $(BUILDIMAGE) | bzip2 > $(FACTORY_ARCHIVE_PATH)/$(ARCHIVENAME).bz2
-
-tag:
-	docker tag $(BUILDIMAGE) $(REGISTRY_PREFIX)$(NAME):$(VERSION)
-	docker tag $(BUILDIMAGE) $(REGISTRY_PREFIX)$(NAME):latest
-
-deliver:
-	docker push $(REGISTRY_URL)/$(NAME):$(VERSION)
-	docker push $(REGISTRY_URL)/$(NAME):latest
+build:
+	docker build --rm $(BUILD_ARGS) -t $(BUILDIMAGE) \
+		-t $(NAME):$(VERSION) --cache-from $(NAME):$(VERSION) .
 
 clean:
+	docker rmi $(BUILDIMAGE)
+
+clean-all:
 	docker rmi -f $(shell docker images $(BUILDIMAGE) -q)
     
 

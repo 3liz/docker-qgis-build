@@ -1,0 +1,44 @@
+
+# Activate shell options
+shopt -s extglob
+shopt -s globstar
+
+# Enable bash completion
+if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
+    . /etc/bash_completion
+fi
+
+# Redefine aliases
+alias ll='ls -alh'
+alias la='ls -a'
+alias l='ls -CF'
+
+#Add user path
+#XXX Already added by default
+#export PATH=$HOME/bin:$PATH
+
+alias rm='rm -I'
+
+#
+# Git environment
+#
+
+if [ -f /etc/bash_completion.d/git-prompt ]; then
+    . /etc/bash_completion.d/git-prompt
+    PS1_OLD=$PS1
+    PS1="\[\e[1;33m\][\w]\[\e[0;32m\]\$(__git_ps1)\[\e[0m\]\n\[\e[1;31m\]\h\[\e[0m\]$ "
+    alias commit='git commit'
+    alias pull='git pull'
+    alias push='git push'
+    alias st='git status'
+    alias branch='git branch'
+    alias checkout='git checkout'
+    alias stash='git stash'
+    alias dif='git diff'
+fi
+
+
+alias ngrep='grep -nR --exclude-dir=.git --exclude-dir=_build --exclude-dir=__pycache__ --color=auto'
+
+
+

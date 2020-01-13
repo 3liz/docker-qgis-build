@@ -1,12 +1,12 @@
-# Docker build dependencies
+# Qgis build environment
 
-Create an image based on debian/stretch for qgis build dependencies.
+Create an image with  qgis build dependencies for building and running tests in
+o Docker container
 
-## Running as a standalone container
+## Building qgis
 
-If the image is run as a standalone container the src directory should be bind-mounted in /root/src.
-
-The default command (CMD) is to execute the file /root/src/docker-build-test.sh 
+cd into your qgis source repository then run the `qgis-build-env.sh`. The script start 
+an interactive bash session in a Docker container from where you can run build commands
 
 ## Credits
 
