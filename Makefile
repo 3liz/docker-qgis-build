@@ -5,10 +5,14 @@
 
 NAME=qgis-build-deps
 
+
 BUILDID=$(shell date +"%Y%m%d%H%M")
 COMMITID=$(shell git rev-parse --short HEAD)
 
-VERSION=bionic
+VERSION:=bionic
+IMAGE:=ubuntu:bionic
+
+BUILD_ARGS=--build-arg="IMAGE=$(IMAGE)"
 
 BUILDIMAGE=$(NAME):$(VERSION)-$(COMMITID)
 

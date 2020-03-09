@@ -1,5 +1,7 @@
 # Need docker above v17-05.0-ce
-FROM  ubuntu:bionic
+ARG IMAGE=ubuntu:bionic
+
+FROM ${IMAGE}
 
 MAINTAINER David Marteau <david.marteau@3liz.com>
 
@@ -13,7 +15,6 @@ RUN export DEBIAN_FRONTEND=noninteractive && dpkg-divert --local --rename --add 
     software-properties-common \
     ca-certificates \
     python3-setuptools \
-  && add-apt-repository ppa:git-core/ppa && apt-get update \
   && python3 -m easy_install pip \
   && apt-get remove -y python3-setuptools \
   && apt-get install -y --no-install-recommends \
@@ -119,7 +120,18 @@ RUN pip3 install setuptools wheel \
     nose2  \
     future \
     oauthlib \
-    pyopenssl
+    pyopenssl \
+    autopep8
+
+RUN export DEBIAN_FRONTEND=noninteractive && apt-get install -y --no-install-recommends \
+      vim \
+      build-essential \
+      devscripts \ 
+      libdistro-info-perl \
+      fakeroot \
+      debhelper \
+      gpp \
+    && apt-get clean    
 
 COPY scripts/ /usr/local/bin/
 

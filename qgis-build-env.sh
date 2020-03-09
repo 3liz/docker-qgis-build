@@ -2,7 +2,10 @@
 
 # Run docker interactively in the current directory
 
-docker run -it --rm -u $(id -u):$(id -g) \
+USERID=${USERID:-$(id -u)}
+GROUPID=${GROUPID:-$(id -g)}
+
+docker run -it --rm -u $USERID:$GROUPID --net host \
     -v $(pwd):/home/$USER \
     --workdir /home/$USER \
     -e HOME=/home/$USER \
