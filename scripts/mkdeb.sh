@@ -13,7 +13,7 @@ QGIS_PATCH=`sed -ne 's/SET(CPACK_PACKAGE_VERSION_PATCH "\([0-9]*\)")/\1/p' CMake
 QGIS_VERSION=${QGIS_VERSION:-"$QGIS_MAJOR.$QGIS_MINOR.$QGIS_PATCH"}
 
 PREFIX=${PREFIX:-"/usr/"}
-PKGVERSION=$QGIS_VERSION~$VERSION_CODENAME
+PKGVERSION=$QGIS_VERSION~$DEB_TARGET_ARCH-$VERSION_CODENAME
 PKGNAME=qgis-3liz
 
 mkdir -p $BUILDDIR/debian/$PREFIX 
@@ -31,7 +31,7 @@ EOF1
 chmod 755 $BUILDDIR/debian/DEBIAN/postinst
 
 WITH_3D=`sed -ne 's/WITH_3D:BOOL=\(TRUE\|ON\)/\1/p' $BUILDDIR/CMakeCache.txt`
-WITH_OPENCL=`sed -ne 's/WITH_OPENCL:BOOL=\(TRUE\|ON\)/\1/p' $BUILDDIR/CMakeCache.txt`
+WITH_OPENCL=`sed -ne 's/USE_OPENCL:BOOL=\(TRUE\|ON\)/\1/p' $BUILDDIR/CMakeCache.txt`
 
 [ ! -z $WITH_3D ] && DEPENDS_OPTS="-D WITH_3D"
 [ ! -z $WITH_OPENCL ] && DEPENDS_OPTS="$DEPENDS_OPTS -D WITH_OPENCL"
@@ -46,13 +46,24 @@ Package: $PKGNAME
 Version: $PKGVERSION 
 Section: science
 Priority: optional
-Architecture: $DEB_BUILD_ARCH_CPU
+Architecture: $DEB_TARGET_ARCH
 Maintainer: 3liz <info@3liz.com> 
 Description: Qgis distribution - 3liz custom build
 Conflicts: qgis, python3-qgis, python3-qgis-common, qgis-providers, qgis-providers-common, qgis-server
 Depends: ${DEPENDS[@]}
 EOF2
 
-fakeroot dpkg-deb --build $BUILDDIR/debian ./$PKGNAME-$PKGVERSION.deb
+FULLPKGNAME=./$PKGNAME-$PKGVERSION.deb
+
+fakeroot dpkg-deb --build $BUILDDIR/debian ./$FULLPKGNAME
+echo $FULLPKGNAME > .PKG_MANIFEST
+
+if [ ! -z $EXPORT_USER ] && 
+    chown $EXPORT_USER: $FULLPKGNAME .PKG_MANIFEST
+fi
+
+if [ ! -z $EXPORT_DIR ]; then
+    mv ./$FULLPKGNAME .PKG_MANIFEST $EXPORT_DIR/
+fi
 
 

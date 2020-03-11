@@ -1,0 +1,6 @@
+.git
+.gitlab-ci
+Dockerfile
+Dockerfile.arm
+Makefile
+
