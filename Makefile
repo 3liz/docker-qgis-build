@@ -88,7 +88,7 @@ BUILDDIR=$(PWD)/build
 arm-build: arm-build-deps
 	rm -rf $(BUILDDIR)/*  
 	mkdir -p $(BUILDDIR)
-	docker run -it --rm -v $(BUILDDIR):/export.d \
+	docker run --rm -v $(BUILDDIR):/export.d \
 		-e EXPORT_USER=$(USER) \
 		-e EXPORT_DIR=/export.d \
 		-e QGIS_CLONE=$(QGIS_BRANCH) \
