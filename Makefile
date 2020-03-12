@@ -34,7 +34,7 @@ clean-all:
 # Default qgis branch to build
 # May be specified on command line
 #
-QGIS_BRANCH=final-3_10_3
+QGIS_BRANCH:=final-3_10_3
 
 #------------
 # arm 32 bits
@@ -49,6 +49,7 @@ arm32-deps:
 
 arm32-build:
 	$(MAKE) arm-build \
+		ARM_VERSION=$(ARM32_VERSION) \
 		ARM_BUILDIMAGE=$(NAME):$(ARM32_VERSION) \
 		ARM_BASE_IMAGE=$(ARM32_BASE_IMAGE)
 
@@ -82,10 +83,21 @@ ifdef REGISTRY_PREFIX
 	docker push $(REGISTRY_PREFIX)$(ARM_BUILDIMAGE)
 endif
 
+BUILDDIR=$(PWD)/build
+
 arm-build: arm-build-deps
-	docker run -it --rm -v $(PWD):/export.d \
+	rm -rf $(BUILDDIR)/*  
+	mkdir -p $(BUILDDIR)
+	docker run -it --rm -v $(BUILDDIR):/export.d \
 		-e EXPORT_USER=$(USER) \
 		-e EXPORT_DIR=/export.d \
 		-e QGIS_CLONE=$(QGIS_BRANCH) \
 		$(REGISTRY_PREFIX)$(ARM_BUILDIMAGE) build-arm.sh
+
+.PHONY: package
+package:
+	@echo "Building package $(FACTORY_PACKAGE_NAME)"
+	{ set -e; source $(BUILDDIR)/.PKG_MANIFEST; \
+	  $(FACTORY_SCRIPTS)/make-packages $(FACTORY_PACKAGE_NAME) $(PKG_VERSION) $(PKG_FILE); \
+	}
 

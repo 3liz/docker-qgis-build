@@ -53,10 +53,13 @@ Conflicts: qgis, python3-qgis, python3-qgis-common, qgis-providers, qgis-provide
 Depends: ${DEPENDS[@]}
 EOF2
 
-FULLPKGNAME=./$PKGNAME-$PKGVERSION.deb
+FULLPKGNAME=$PKGNAME-$PKGVERSION.deb
 
 fakeroot dpkg-deb --build $BUILDDIR/debian ./$FULLPKGNAME
-echo $FULLPKGNAME > .PKG_MANIFEST
+cat > .PKG_MANIFEST <<EOF
+PKG_FILE=$FULLPKGNAME
+PKG_VERSION=$PKGVERSION
+EOF
 
 if [ ! -z $EXPORT_USER ] && 
     chown $EXPORT_USER: $FULLPKGNAME .PKG_MANIFEST

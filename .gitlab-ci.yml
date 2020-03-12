@@ -1,0 +1,33 @@
+stages:
+- build
+
+variables:
+    FACTORY_PRODUCT_NAME: qgis-arm
+    FACTORY_PACKAGE_TYPE: debpkg
+
+.arm-build:
+  stage: build
+  script:
+     - make $BUILDNAME-build package
+  environment:
+    name: snap
+  artifacts:
+    paths:
+        - "factory.manifest"
+  tags:
+    - infrav3
+
+build:arm32:
+  extends: .arm-build
+  variables:
+    BUILDNAME: arm32
+    FACTORY_PACKAGE_NAME: qgis-arm32
+  when: manual
+
+build:arm64:
+  extends: .arm-build
+  variables:
+    BUILDNAME: arm64
+    FACTORY_PACKAGE_NAME: qgis-arm64
+  when: manual
+
