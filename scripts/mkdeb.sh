@@ -18,7 +18,7 @@ PKGNAME=qgis-3liz
 
 mkdir -p $BUILDDIR/debian/$PREFIX 
 mkdir -p $BUILDDIR/debian/DEBIAN
-cp -aR $INSTALL_PREFIX/* $BUILDDIR/debian/$PREFIX/
+cp -aR $INSTALLDIR/* $BUILDDIR/debian/$PREFIX/
 
 # Remove include files
 rm -r $BUILDDIR/debian/$PREFIX/include
@@ -55,18 +55,13 @@ EOF2
 
 FULLPKGNAME=$PKGNAME-$PKGVERSION.deb
 
+cd ${DIST:-.}
+
 fakeroot dpkg-deb --build $BUILDDIR/debian ./$FULLPKGNAME
 cat > .PKG_MANIFEST <<EOF
 PKG_FILE=$FULLPKGNAME
 PKG_VERSION=$PKGVERSION
 EOF
 
-if [ ! -z $EXPORT_USER ] && 
-    chown $EXPORT_USER: $FULLPKGNAME .PKG_MANIFEST
-fi
-
-if [ ! -z $EXPORT_DIR ]; then
-    mv ./$FULLPKGNAME .PKG_MANIFEST $EXPORT_DIR/
-fi
 
 

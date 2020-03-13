@@ -1,5 +1,5 @@
 # vi: set ft=dockerfile :
-ARG ARM_BASE_IMAGE=armv7hf-debian:buster
+ARG ARM_BASE_IMAGE
 
 FROM balenalib/${ARM_BASE_IMAGE}
 MAINTAINER David Marteau <david.marteau@3liz.com>

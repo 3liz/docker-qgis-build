@@ -8,12 +8,9 @@ variables:
 .arm-build:
   stage: build
   script:
-     - make $BUILDNAME-build package
+     - make $BUILDNAME-build
   environment:
     name: snap
-  artifacts:
-    paths:
-        - "factory.manifest"
   tags:
     - infrav3
 
@@ -29,5 +26,12 @@ build:arm64:
   variables:
     BUILDNAME: arm64
     FACTORY_PACKAGE_NAME: qgis-arm64
+  when: manual
+
+build:rpi3:
+  extends: .arm-build
+  variables:
+    BUILDNAME: rpi3
+    FACTORY_PACKAGE_NAME: qgis-rpi3
   when: manual
 

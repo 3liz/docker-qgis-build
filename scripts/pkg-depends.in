@@ -7,10 +7,10 @@ libgdal20,
 libgeos-c1v5,
 libpq5,
 #if VERSION_CODENAME==bionic
-libproj12
+libproj12,
 #else
-libproj13
-#endef
+libproj13,
+#endif
 libqca-qt5-2, 
 libqt5concurrent5, 
 libqt5core5a, 

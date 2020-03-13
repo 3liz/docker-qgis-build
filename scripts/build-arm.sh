@@ -7,8 +7,8 @@ BUILD_THREADS=${BUILD_THREADS:-8}
 ## Clone qgis if requested
 if [[ ! -z  $QGIS_CLONE ]]; then
 echo "Cloning Qgis  $QGIS_CLONE"
-git clone --depth 1 -b $QGIS_CLONE git://github.com/qgis/QGIS.git /build
-cd /build
+git clone --depth 1 -b $QGIS_CLONE git://github.com/qgis/QGIS.git /src
+cd /src
 GIT_BRANCH=$QGIS_CLONE
 else
 GIT_BRANCH=$(basename `git rev-parse --abbrev-ref HEAD`)
@@ -26,10 +26,10 @@ fi
 
 declare $(dpkg-architecture)
 
-export BUILDDIR=$SRCDIR/build$BUILD_TYPE-$GIT_BRANCH-$DEB_TARGET_ARCH
+BUILDDIR=${BUILDDIR:-"$SRCDIR/build$BUILD_TYPE-$GIT_BRANCH-$DEB_TARGET_ARCH"}
 mkdir -p $BUILDDIR
 
-INSTALLDIR=$SRCDIR/install-$GIT_BRANCH-$DEB_TARGET_ARCH
+INSTALLDIR=${INSTALLDIR:-"$SRCDIR/install-$GIT_BRANCH-$DEB_TARGET_ARCH"}
 rm -rf $INSTALLDIR 
 mkdir -p $INSTALLDIR
 
@@ -58,11 +58,5 @@ cmake $SRCDIR  \
 # Install
 ninja install -j $BUILD_THREADS |cat
 
-cd $SRCDIR
-
-# Make debian package
-export INSTALL_PREFIX=$INSTALLDIR
-export PREFIX=/usr
-mkdeb.sh 
 
 

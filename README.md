@@ -36,16 +36,29 @@ BUILDDIR=<build_dir> INSTALL_PREFIX=<install_prefix> PREFIX='/usr' mkdeb.sh
 
 ## Building for ARM
 
-1. Get the [balenalib debian buster base image](https://hub.docker.com/r/balenalib/armv7hf-debian)
+ARM builds use the [balenalib base images](https://www.balena.io/docs/reference/base-images/base-images/) for cross building Qgis.
 
+
+### Building dependencies
+
+For building dependencies image for a specific distribution, pass the name and the version codename of the distribution as
+parameters:
+
+Example for building dependencies for arm32 on debian buster: 
 ```
-docker pull balenalib/armv7hf-debian:buster-build
+make arm32-deps OS_DIST_TARGET=debian OS_DIST_VERSION=buster
 ```
 
-Références:
+### Build Qgis interactively
 
-* https://hub.docker.com/u/balenalib/arvmv
-* https://www.balena.io/docs/reference/base-images/base-images/
+Use the script `qgis-build-env-arm.sh`. 
 
+It is the same as the `qgis-build-env.sh` script but run as
+root because of the way Qemu  is executed  the balena images does not run commands 
+interactively as user other than root.
+
+
+see also:
+    * [balenalib base images references](https://www.balena.io/docs/reference/base-images/base-images-ref/)
 
 
