@@ -108,6 +108,9 @@ RUN export DEBIAN_FRONTEND=noninteractive && dpkg-divert --local --rename --add 
     unzip \
     libgl1-mesa-dri \
     bash-completion \
+    libprotobuf-dev \
+    protobuf-compiler \
+    python-gdal \
   && apt-get autoremove -y --purge exim4  exim4-base exim4-config exim4-daemon-light \
   && apt-get clean
 

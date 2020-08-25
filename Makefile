@@ -10,7 +10,7 @@ BUILDID=$(shell date +"%Y%m%d%H%M")
 COMMITID=$(shell git rev-parse --short HEAD)
 
 VERSION:=bionic
-IMAGE:=ubuntu:bionic
+IMAGE:=ubuntu:$(VERSION)
 
 BUILD_ARGS=--build-arg="IMAGE=$(IMAGE)"
 
