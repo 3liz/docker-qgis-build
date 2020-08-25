@@ -8,6 +8,10 @@ GROUPID=${GROUPID:-$(id -g)}
 # Redefine this you have a different Postgresql installation 
 PG_RUN=${PG_RUN:-/var/run/postgresql}
 
+# Set default values for PG service files
+PGSERVICEFILE=${PGSERVICEFILE:-/home/$USER/.pg_service.conf}
+PGPASSFILE=${PGPASSFILE:-/home/$USER/.pgpass}
+
 docker run -it --rm -u $USERID:$GROUPID --net host \
     -e HOME=/home/$USER \
     -e DISPLAY=unix$DISPLAY \
