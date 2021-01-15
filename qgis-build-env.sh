@@ -2,10 +2,34 @@
 
 # Run docker interactively in the current directory
 
+function flags()
+{
+    while test $# -gt 0
+    do
+        case "$1" in
+        (--with-gui)
+            with_gui=yes
+            shift;;
+        (*)
+            build_target=$1    
+            shift;;
+        esac
+    done
+}
+
+flags "$@"
+
+BUILDER=qgis-builder:${build_target:-bionic}
+
+echo "Builder is $BUILDER"
+
 USERID=${USERID:-$(id -u)}
 GROUPID=${GROUPID:-$(id -g)}
 
-if [[ "$1" == "with-gui" ]]; then
+if [[ "$with_gui" == "yes" ]]; then
+
+echo "Running with gui supports"
+
 # Redefine this you have a different Postgresql installation 
 PG_RUN=${PG_RUN:-/var/run/postgresql}
 
@@ -25,13 +49,13 @@ docker run -it --rm -u $USERID:$GROUPID --net host \
     --hostname=qgis-build \
     --privileged \
     --device /dev/dri \
-    qgis-build-deps:${1:-bionic}
+    $BUILDER
 else
 docker run -it --rm -u $USERID:$GROUPID --net host \
     -v $(pwd):/home/$USER \
     --workdir /home/$USER \
     -e HOME=/home/$USER \
     --hostname=qgis-build \
-    qgis-build-deps:${1:-bionic}
+    $BUILDER
 fi
 

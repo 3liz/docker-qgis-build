@@ -3,32 +3,39 @@
 # on ubuntu:bionic
 #
 
-NAME=qgis-build-deps
-
+NAME=qgis-builder
 
 BUILDID=$(shell date +"%Y%m%d%H%M")
 COMMITID=$(shell git rev-parse --short HEAD)
 
+TARGET:=ubuntu
 VERSION:=bionic
-IMAGE:=ubuntu:$(VERSION)
+SUPER:=$(TARGET):$(VERSION)
 
-BUILD_ARGS=--build-arg="IMAGE=$(IMAGE)"
+# Change this to 'custom' if gdal/proj must no be installed from
+# default packages
+GDAL_INSTALL:=default
 
-BUILDIMAGE=$(NAME):$(VERSION)-$(COMMITID)
+BUILD_ARGS=\
+  --build-arg="SUPER=$(SUPER)" \
+  --build-arg="GDAL_INSTALL=$(GDAL_INSTALL)"
 
 all:
 	@echo "Usage: make [build|clean|clean-all]"
 
 
 build:
-	docker build --rm $(BUILD_ARGS) -t $(BUILDIMAGE) \
+	docker build --rm $(BUILD_ARGS) \
 		-t $(NAME):$(VERSION) --cache-from $(NAME):$(VERSION) .
 
-clean:
-	docker rmi $(BUILDIMAGE)
+# Special rule for gdal custom build
+build-gdal:
+	$(MAKE) build TARGET=gdal VERSION=$(VERSION) GDAL_INSTALL=custom
 
 clean-all:
-	docker rmi -f $(shell docker images $(BUILDIMAGE) -q)
+	docker rmi -f $(shell docker images  $(NAME):$(VERSION) -q)
+
+
 
 #
 # Default qgis branch to build

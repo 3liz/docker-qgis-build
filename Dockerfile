@@ -1,7 +1,7 @@
 # Need docker above v17-05.0-ce
-ARG IMAGE=ubuntu:bionic
+ARG SUPER
 
-FROM ${IMAGE}
+FROM ${SUPER}
 
 MAINTAINER David Marteau <david.marteau@3liz.com>
 
@@ -22,16 +22,13 @@ RUN export DEBIAN_FRONTEND=noninteractive && dpkg-divert --local --rename --add 
     cmake \
     dh-python \
     flex \
-    gdal-bin \
     git \
     graphviz \
     libexpat1-dev \
     libfcgi-dev \
-    libgdal-dev \
     libgeos-dev \
     libgsl-dev \
     libpq-dev \
-    libproj-dev \
     libqca-qt5-2-dev \
     libqca-qt5-2-plugins \
     libqt53drender5 \
@@ -69,14 +66,12 @@ RUN export DEBIAN_FRONTEND=noninteractive && dpkg-divert --local --rename --add 
     python3-dateutil \
     python3-dev \
     python3-future \
-    python3-gdal \
     python3-psycopg2 \
     python3-httplib2 \
     python3-jinja2 \
     python3-markupsafe \
     python3-mock \
     python3-pygments \
-    python3-pyproj \
     python3-pyqt5 \
     python3-pyqt5.qsci \
     python3-pyqt5.qtsql \
@@ -110,8 +105,10 @@ RUN export DEBIAN_FRONTEND=noninteractive && dpkg-divert --local --rename --add 
     bash-completion \
     libprotobuf-dev \
     protobuf-compiler \
-    python-gdal \
     libzstd-dev \
+    libnetcdf-dev \
+    libhdf4-alt-dev \
+    libhdf5-serial-dev \
     flip \
   && apt-get autoremove -y --purge exim4  exim4-base exim4-config exim4-daemon-light \
   && apt-get clean
@@ -140,6 +137,19 @@ RUN export DEBIAN_FRONTEND=noninteractive && apt-get install -y --no-install-rec
     && apt-get clean    
 
 COPY scripts/ /usr/local/bin/
+
+ARG GDAL_INSTALL=default
+ARG PROJ_LIBRARY
+
+RUN if [ "$GDAL_INSTALL" = "default" ]; then \
+    export DEBIAN_FRONTEND=noninteractive && apt-get install -y --no-install-recommends \
+    libproj-dev \
+    libgdal-dev \
+    python3-pyproj \
+    python3-gdal \
+    python-gdal \
+    gdal-bin \
+  && apt-get clean; fi
 
 # Set uid root on Xvfb
 RUN chmod u+s /usr/bin/Xvfb
