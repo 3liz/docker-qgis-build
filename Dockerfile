@@ -111,6 +111,8 @@ RUN export DEBIAN_FRONTEND=noninteractive && dpkg-divert --local --rename --add 
     libprotobuf-dev \
     protobuf-compiler \
     python-gdal \
+    libzstd-dev \
+    flip \
   && apt-get autoremove -y --purge exim4  exim4-base exim4-config exim4-daemon-light \
   && apt-get clean
 
@@ -132,6 +134,9 @@ RUN export DEBIAN_FRONTEND=noninteractive && apt-get install -y --no-install-rec
       fakeroot \
       debhelper \
       gpp \
+      libyaml-tiny-perl \
+      less \
+      openssh-client \
     && apt-get clean    
 
 COPY scripts/ /usr/local/bin/

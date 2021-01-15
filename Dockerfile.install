@@ -1,0 +1,42 @@
+# vi: set ft=dockerfile :
+ARG IMAGE=ubuntu:bionic
+
+FROM ${IMAGE}
+MAINTAINER David Marteau <david.marteau@3liz.com>
+LABEL Description="QGIS3 Custom install" Vendor="3liz.org" Version="20.08.0"
+
+ENV DEBIAN_FRONTEND noninteractive
+
+RUN export DEBIAN_FRONTEND=noninteractive \
+    && dpkg-divert --local --rename --add /sbin/initctl \
+    && apt-get update \
+    && apt-get install -y --no-install-recommends apt-transport-https ca-certificates dirmngr gnupg2 wget \
+    && apt-get install -y --no-install-recommends python3-setuptools \
+    && python3 -m easy_install pip \
+    && apt-get remove -y python3-setuptools \
+    && pip3 install setuptools wheel \
+    && apt-get install -y --no-install-recommends \
+      unzip \
+      gosu \
+      iputils-ping \
+      xvfb \
+      libgl1-mesa-dri \
+      python3-psutil \
+    && rm -rf /root/.cache
+
+# Use utf-8 for python 3
+ENV LC_ALL="C.UTF-8"
+
+ENV QGIS_DISABLE_MESSAGE_HOOKS=1
+ENV QGIS_NO_OVERRIDE_IMPORT=1
+#
+
+ARG PACKAGE
+
+COPY ${PACKAGE} /
+
+RUN apt install -y --no-install-recommends /${PACKAGE}
+RUN cd /usr/lib/python3/dist-packages/ && ln -s /usr/share/qgis/python/qgis
+
+
+
