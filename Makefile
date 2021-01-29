@@ -9,7 +9,7 @@ BUILDID=$(shell date +"%Y%m%d%H%M")
 COMMITID=$(shell git rev-parse --short HEAD)
 
 TARGET:=ubuntu
-VERSION:=bionic
+VERSION:=20.04
 SUPER:=$(TARGET):$(VERSION)
 
 # Change this to 'custom' if gdal/proj must no be installed from
@@ -41,7 +41,7 @@ clean-all:
 # Default qgis branch to build
 # May be specified on command line
 #
-QGIS_BRANCH:=final-3_10_3
+QGIS_BRANCH:=release-3_16
 
 OS_DIST_TARGET:=debian
 OS_DIST_VERSION:=buster

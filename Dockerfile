@@ -147,7 +147,6 @@ RUN if [ "$GDAL_INSTALL" = "default" ]; then \
     libgdal-dev \
     python3-pyproj \
     python3-gdal \
-    python-gdal \
     gdal-bin \
   && apt-get clean; fi
 
