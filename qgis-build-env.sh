@@ -19,7 +19,7 @@ function flags()
 
 flags "$@"
 
-BUILDER=qgis-builder:${build_target:-20.04}
+BUILDER=qgis-build-deps:${build_target:-ubuntu}
 
 echo "Builder is $BUILDER"
 
