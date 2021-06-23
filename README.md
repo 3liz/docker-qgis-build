@@ -9,7 +9,7 @@ a Docker container from sources.
 make build 
 ```
 
-By default, create en build environment for ubuntu 18.04 bionic.
+By default, create en build environment for ubuntu 20.04.
 
 To build another environment use the `IMAGE` and `VERSION` variables:
 

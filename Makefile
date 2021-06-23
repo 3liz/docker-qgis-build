@@ -15,7 +15,7 @@ GDAL_INSTALL:=default
 all:
 	@echo "Usage: make [build|clean|clean-all]"
 
-QGIS_VERSION:=release-3_16
+QGIS_VERSION:=release-3_18
 
 BASE_IMAGE_NAME:=qgis
 IMAGE_NAME:=$(BASE_IMAGE_NAME):$(QGIS_VERSION)-$(TARGET)

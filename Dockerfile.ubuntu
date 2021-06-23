@@ -14,9 +14,8 @@ RUN export DEBIAN_FRONTEND=noninteractive && dpkg-divert --local --rename --add 
     software-properties-common \
     ca-certificates \
     python3-setuptools \
-  && python3 -m easy_install pip \
-  && apt-get remove -y python3-setuptools \
-  && apt-get install -y --no-install-recommends \
+    python3-wheel \
+    python3-pip \
     bison \
     ccache \
     clang \
@@ -77,6 +76,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && dpkg-divert --local --rename --add 
     python3-pyqt5.qsci \
     python3-pyqt5.qtsql \
     python3-pyqt5.qtsvg \
+    python3-pyqt5.qtpositioning \
     python3-sip \
     python3-sip-dev \
     python3-six \
@@ -114,8 +114,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && dpkg-divert --local --rename --add 
   && apt-get autoremove -y --purge exim4  exim4-base exim4-config exim4-daemon-light \
   && apt-get clean
 
-RUN pip3 install setuptools wheel \
-  && pip3 install \
+RUN pip3 install \
     owslib \
     pyyaml \
     nose2  \
@@ -260,6 +259,7 @@ RUN export DEBIAN_FRONTEND=noninteractive \
     python3-pyqt5.qtsql \
     python3-pyqt5.qtsvg \
     python3-pyqt5.qtwebkit \
+    python3-pyqt5.qtpositioning \
     python3-requests \
     python3-sip \
     python3-six \
