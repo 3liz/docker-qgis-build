@@ -33,8 +33,14 @@ You must clone the qgis repository locally then cd into it. Then run the `qgis-b
 The script open a bash session interactively in the `build-deps` image, from it you may run any build command exactly
 the same way as usual to build test and run Qgis.
 
+By default, the built image will have its `version_tag` set to `<QGIS_VERSION>-<TARGET`.  Exemple: if you have choosen
+`QGIS_VERSION=final-3_10_14` as qgis version to build, the final image will tagged `qgis:final-3_10_14-ubuntu` 
 
+## Runnig Qgis desktop
 
+Use the script `qgis-run`:
 
-
+```
+FLAVOR=<version_tag> qgis-run
+```
 
