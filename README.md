@@ -3,62 +3,38 @@
 Create an image with qgis build dependencies for building and running tests in
 a Docker container from sources.
 
-## Building the base image
+## Building qgis
 
 ```
 make build 
 ```
 
-By default, create en build environment for ubuntu 20.04.
+By default, create a multi-stage build environment for ubuntu 20.04.
 
-To build another environment use the `IMAGE` and `VERSION` variables:
+To build another environment use the `TARGET` variable, the dockerfile `Dockerfile.<target>` must exists:
 
+To build a specific version (branch/tag) of Qgis, use the `QGIS_VERSION` variable:
+
+Example
 ```
-make build VERSION=buster IMAGE=debian:buster-slim
-```
-
-## Building qgis
-
-cd into your qgis source repository then run the `qgis-build-env.sh`. The script start 
-an interactive bash session in a Docker container from where you can run build commands
-
-
-## Building qgis debian package
-
-You must be in your build environment in order to create the debian package.
-
-First install qgis in a custom location - defined by the `CMAKE_INSTALL_PREFIX` variables. Then
-run the `mkdeb.sh` command:
-
-```
-BUILDDIR=<build_dir> INSTALL_PREFIX=<install_prefix> PREFIX='/usr' mkdeb.sh
+make build QGIS_VERSION=release-3_10
 ```
 
-## Building for ARM
+## Building qgis interactively
 
-ARM builds use the [balenalib base images](https://www.balena.io/docs/reference/base-images/base-images/) for cross building Qgis.
+Make sure that the `build-deps` image is builded:
 
-
-### Building dependencies
-
-For building dependencies image for a specific distribution, pass the name and the version codename of the distribution as
-parameters:
-
-Example for building dependencies for arm32 on debian buster: 
 ```
-make arm32-deps OS_DIST_TARGET=debian OS_DIST_VERSION=buster
+make build-deps [TARGET=<target>]
 ```
 
-### Build Qgis interactively
+You must clone the qgis repository locally then cd into it. Then run the `qgis-build-env.sh` script.
 
-Use the script `qgis-build-env-arm.sh`. 
-
-It is the same as the `qgis-build-env.sh` script but run as
-root because of the way Qemu  is executed  the balena images does not run commands 
-interactively as user other than root.
+The script open a bash session interactively in the `build-deps` image, from it you may run any build command exactly
+the same way as usual to build test and run Qgis.
 
 
-see also:
-    * [balenalib base images references](https://www.balena.io/docs/reference/base-images/base-images-ref/)
+
+
 
 

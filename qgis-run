@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+
+FLAVOR=${QGIS_FLAVOR:-release}
+
+# see https://github.com/moby/moby/issues/38442
+# see https://stackoverflow.com/questions/52501594/qt-app-ui-elements-randomly-rendered-as-blank-black-in-docker
+
+# Add the following options for using posgres configuration
+# -v /var/run/postgresql/:/var/run/postgresql \
+# -e PGSERVICEFILE=/home/$USER/.pg_service.conf \
+# -e PGPASSFILE=/home/$USER/.pgpass \
+
+PG_RUN=/var/run/postgresql
+
+docker run --rm --name qgis-$FLAVOR --net host \
+    -u $(id -u):$(id -g) \
+    -e DISPLAY=unix$DISPLAY \
+    -e USER=$USER \
+    -e HOME=/home/$USER \
+    -e QT_X11_NO_MITSHM=1 \
+    -e QT_DEBUG_PLUGINS=1 \
+    -v /tmp/.X11-unix:/tmp/.X11-unix \
+    -v $HOME:/home/$USER \
+    -v $PG_RUN:/var/run/postgresql \
+    -e PGSERVICEFILE=/home/$USER/.pg_service.conf \
+    -e PGPASSFILE=/home/$USER/.pgpass \
+    qgis:$FLAVOR qgis $@
+
