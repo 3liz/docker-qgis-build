@@ -20,6 +20,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && dpkg-divert --local --rename --add 
     ccache \
     clang \
     cmake \
+    cmake-curses-gui \
     dh-python \
     flex \
     git \
