@@ -13,9 +13,9 @@ TARGET:=ubuntu
 GDAL_INSTALL:=default
 
 all:
-	@echo "Usage: make [build|clean|clean-all]"
+	@echo "Usage: make [build|build-deps|clean-all]"
 
-QGIS_VERSION:=release-3_18
+QGIS_VERSION:=master
 
 BASE_IMAGE_NAME:=qgis
 IMAGE_NAME:=$(BASE_IMAGE_NAME):$(QGIS_VERSION)-$(TARGET)

@@ -17,7 +17,7 @@ To build a specific version (branch/tag) of Qgis, use the `QGIS_VERSION` variabl
 
 Example
 ```
-make build QGIS_VERSION=release-3_10
+make build QGIS_VERSION=master
 ```
 
 ## Building qgis interactively
