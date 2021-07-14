@@ -11,6 +11,9 @@ make build
 
 By default, create a multi-stage build environment for ubuntu 20.04.
 
+Multi stage build provide a much smaller image that a full build image with all dependencies: 1.21 Go for 
+final multi-stage build against 6.06 Go for a vanilla build image.
+
 To build another environment use the `TARGET` variable, the dockerfile `Dockerfile.<target>` must exists:
 
 To build a specific version (branch/tag) of Qgis, use the `QGIS_VERSION` variable:
