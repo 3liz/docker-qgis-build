@@ -5,6 +5,9 @@
 set -x
 set -e
 
+## The following options are
+## Defined as build arguments in Dockerfiles
+
 #BUILD_THREADS=${BUILD_THREADS:-8}
 #WITH_DESKTOP=${WITH_DESKTOP:-ON}
 #WITH_GRASS=${WITH_GRASS:-OFF}

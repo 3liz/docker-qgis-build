@@ -167,7 +167,9 @@ FROM builddeps as builder
 ARG QGIS_GITURL=git://github.com/qgis/QGIS.git
 ARG QGIS_VERSION
 
-RUN mkdir -p /build && cd /build && git clone --depth 1 -b $QGIS_VERSION $QGIS_GITURL
+RUN mkdir -p /build && cd /build \ 
+    && echo "Cloning $QGIS_VERSION $QGIS_GITURL" \
+    && git clone --depth 1 -b $QGIS_VERSION $QGIS_GITURL
 
 ARG BUILD_THREADS=8
 ARG WITH_DESKTOP=ON
@@ -191,17 +193,16 @@ RUN export DEBIAN_FRONTEND=noninteractive \
     && dpkg-divert --local --rename --add /sbin/initctl \
     && apt-get update && apt-get upgrade -y \
     && apt-get install -y --no-install-recommends apt-transport-https ca-certificates dirmngr gnupg2 wget \
-    && apt-get install -y --no-install-recommends python3-setuptools \
-    && python3 -m easy_install pip \
-    && apt-get remove -y python3-setuptools \
-    && pip3 install setuptools wheel \
     && apt-get install -y --no-install-recommends \
+      python3-setuptools \
+      python3-pip \
+      python3-wheel \
+      python3-psutil \
       unzip \
       gosu \
       iputils-ping \
       xvfb \
       libgl1-mesa-dri \
-      python3-psutil \
     && rm -rf /root/.cache
 
 

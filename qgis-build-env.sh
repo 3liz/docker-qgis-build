@@ -56,6 +56,6 @@ docker run -it --rm -u $USERID:$GROUPID --net host \
     --workdir /home/$USER \
     -e HOME=/home/$USER \
     --hostname=qgis-build \
-    $BUILDER
+    $DOCKER_EXTRA_OPTS $BUILDER
 fi
 

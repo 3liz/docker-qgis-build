@@ -7,3 +7,4 @@ factory.manifest
 
 *.deb
 
+nohup.out

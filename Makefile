@@ -6,7 +6,7 @@
 BUILDID=$(shell date +"%Y%m%d%H%M")
 COMMITID=$(shell git rev-parse --short HEAD)
 
-TARGET:=ubuntu
+TARGET:=disco
 
 # Change this to 'custom' if gdal/proj must no be installed from
 # default packages
@@ -16,6 +16,7 @@ all:
 	@echo "Usage: make [build|build-deps|clean-all]"
 
 QGIS_VERSION:=master
+QGIS_GITURL:=git://github.com/qgis/QGIS.git
 
 BASE_IMAGE_NAME:=qgis
 IMAGE_NAME:=$(BASE_IMAGE_NAME):$(QGIS_VERSION)-$(TARGET)
@@ -26,6 +27,7 @@ DOCKERFILE=Dockerfile.$(TARGET)
 
 BUILD_ARGS=\
   --build-arg="QGIS_VERSION=$(QGIS_VERSION)" \
+  --build-arg="QGIS_GITURL=$(QGIS_GITURL)" \
   --build-arg="GDAL_INSTALL=$(GDAL_INSTALL)"
 
 build-deps: 
