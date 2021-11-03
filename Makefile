@@ -6,7 +6,7 @@
 BUILDID=$(shell date +"%Y%m%d%H%M")
 COMMITID=$(shell git rev-parse --short HEAD)
 
-TARGET:=disco
+TARGET:=focal
 
 # Change this to 'custom' if gdal/proj must no be installed from
 # default packages

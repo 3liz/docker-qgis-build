@@ -23,6 +23,17 @@ Example
 make build QGIS_VERSION=master
 ```
 
+By default, the built image will have its `version_tag` set to `<QGIS_VERSION>-<TARGET`.  Exemple: if you have choosen
+`QGIS_VERSION=final-3_10_14` as qgis version to build, the final image will tagged `qgis:final-3_10_14-ubuntu` 
+
+### Runnig Qgis desktop
+
+Use the script `qgis-run`:
+
+```
+FLAVOR=<version_tag> qgis-run
+```
+
 ## Building qgis interactively
 
 Make sure that the `build-deps` image is builded:
@@ -33,17 +44,22 @@ make build-deps [TARGET=<target>]
 
 You must clone the qgis repository locally then cd into it. Then run the `qgis-build-env.sh` script.
 
-The script open a bash session interactively in the `build-deps` image, from it you may run any build command exactly
-the same way as usual to build test and run Qgis.
+The script open a bash session interactively in the `build-deps` image, from it you may run any build command exactlythe same way as usual to build and run tests.
 
-By default, the built image will have its `version_tag` set to `<QGIS_VERSION>-<TARGET`.  Exemple: if you have choosen
-`QGIS_VERSION=final-3_10_14` as qgis version to build, the final image will tagged `qgis:final-3_10_14-ubuntu` 
+### Creating an installation
 
-## Runnig Qgis desktop
-
-Use the script `qgis-run`:
+Once Qgis is builded you may create an installation directory with the following command:
 
 ```
-FLAVOR=<version_tag> qgis-run
+make install
 ```
+
+### Running the build from installation directory
+
+From *outside* the build environment - but still in the source repository -  run:
+
+```
+qgis-build-env.sh --run <install-dir>
+```
+
 
