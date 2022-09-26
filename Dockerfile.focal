@@ -269,6 +269,7 @@ RUN export DEBIAN_FRONTEND=noninteractive \
     python3-yaml \
     python3-gdal \
     python3-matplotlib \
+    python3-venv \
     gdal-bin \
     && if test "${WITH_3D}" = "ON"; then ( \
         apt-get install -y --no-install-recommends \

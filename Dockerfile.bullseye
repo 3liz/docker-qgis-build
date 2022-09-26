@@ -1,6 +1,6 @@
 # vim: ft=dockerfile:
 
-ARG BASE_IMAGE=debian:11
+ARG BASE_IMAGE=debian:bullseye
 
 FROM ${BASE_IMAGE} as builddeps
 
@@ -163,7 +163,7 @@ ENTRYPOINT /usr/local/bin/builder-docker-entrypoint.sh
 # Build stage
 FROM builddeps as builder
 
-ARG QGIS_GITURL=git://github.com/qgis/QGIS.git
+ARG QGIS_GITURL=https://github.com/qgis/QGIS.git
 ARG QGIS_VERSION
 
 RUN mkdir -p /build && cd /build \ 
@@ -268,6 +268,7 @@ RUN export DEBIAN_FRONTEND=noninteractive \
     python3-yaml \
     python3-gdal \
     python3-matplotlib \
+    python3-venv \
     gdal-bin \
     && if test "${WITH_3D}" = "ON"; then ( \
         apt-get install -y --no-install-recommends \

@@ -1,12 +1,11 @@
 # 
-# Docker image build dependencies based
-# on ubuntu:bionic
+# Docker image build dependencies for Qgis
 #
 
 BUILDID=$(shell date +"%Y%m%d%H%M")
 COMMITID=$(shell git rev-parse --short HEAD)
 
-TARGET:=focal
+TARGET:=bullseye
 
 # Change this to 'custom' if gdal/proj must no be installed from
 # default packages
@@ -16,7 +15,7 @@ all:
 	@echo "Usage: make [build|build-deps|clean-all]"
 
 QGIS_VERSION:=master
-QGIS_GITURL:=git://github.com/qgis/QGIS.git
+QGIS_GITURL:=https://github.com/qgis/QGIS.git
 
 BASE_IMAGE_NAME:=qgis
 IMAGE_NAME:=$(BASE_IMAGE_NAME):$(QGIS_VERSION)-$(TARGET)

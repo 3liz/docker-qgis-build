@@ -1,6 +1,5 @@
-# Qgis build helper
-
 #!/bin/bash
+# Qgis build helper
 
 set -x
 set -e

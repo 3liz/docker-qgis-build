@@ -19,7 +19,7 @@ function flags()
 
 flags "$@"
 
-BUILDER=qgis-build-deps:${QGIS_BUILD_TARGET:-focal}
+BUILDER=qgis-build-deps:${QGIS_BUILD_TARGET:-bullseye}
 
 echo "Builder is $BUILDER"
 
