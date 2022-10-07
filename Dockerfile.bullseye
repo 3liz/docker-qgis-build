@@ -84,6 +84,8 @@ RUN export DEBIAN_FRONTEND=noninteractive && dpkg-divert --local --rename --add 
     python3-termcolor \
     python3-tz \
     python3-numpy \
+    python3-owslib \
+    python3-lxml \
     qt5keychain-dev \
     qt3d5-dev \
     qt3d-gltfsceneio-plugin \
@@ -115,7 +117,6 @@ RUN export DEBIAN_FRONTEND=noninteractive && dpkg-divert --local --rename --add 
   && apt-get clean
 
 RUN pip3 install \
-    owslib \
     pyyaml \
     nose2  \
     future \
@@ -296,6 +297,7 @@ ENV QGIS_DISABLE_MESSAGE_HOOKS=1
 ENV QGIS_NO_OVERRIDE_IMPORT=1
 
 COPY --from=builder /qgis-install/ /usr/
+COPY --from=builder /usr/lib/x86_64-linux-gnu/qt5 usr/lib/x86_64-linux-gnu/
 
 RUN ldconfig /usr/lib && \
     cd /usr/lib/python3/dist-packages/ && ln -s /usr/share/qgis/python/qgis

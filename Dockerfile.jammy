@@ -86,6 +86,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && dpkg-divert --local --rename --add 
     python3-tz \
     python3-numpy \
     python3-owslib \
+    python3-xml \
     qt5keychain-dev \
     qt3d5-dev \
     qt3d-gltfsceneio-plugin \

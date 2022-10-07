@@ -84,6 +84,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && dpkg-divert --local --rename --add 
     python3-termcolor \
     python3-tz \
     python3-numpy \
+    python3-lxml \
     qt5-default \
     qt5keychain-dev \
     qt3d5-dev \

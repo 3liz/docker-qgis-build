@@ -50,6 +50,7 @@ docker run -it --rm --net host \
     -v /tmp/.X11-unix:/tmp/.X11-unix \
     -v $PG_RUN:/var/run/postgresql \
     -v $install_dir:/qgis-install \
+    --name qgis-build-env \
     --workdir $(pwd) \
     --hostname=qgis-build-run \
     --entrypoint=run-docker-entrypoint.sh \
@@ -60,6 +61,7 @@ docker run -it --rm -u $USERID:$GROUPID --net host \
     --workdir /home/$USER \
     -e HOME=/home/$USER \
     --hostname=qgis-build \
+    --name qgis-build-env \
     $DOCKER_EXTRA_OPTS $BUILDER
 fi
 
