@@ -9,7 +9,7 @@ a Docker container from sources.
 make build 
 ```
 
-By default, create a multi-stage build environment for ubuntu 20.04.
+By default, create a multi-stage build environment for debian 11 (bullseye). 
 
 Multi stage build provide a much smaller image that a full build image with all dependencies: 1.21 Go for 
 final multi-stage build against 6.06 Go for a vanilla build image.
