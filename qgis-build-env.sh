@@ -19,7 +19,7 @@ function flags()
 
 flags "$@"
 
-BUILDER=qgis-build-deps:${QGIS_BUILD_TARGET:-bullseye}
+BUILDER=qgis-build-deps
 
 echo "Builder is $BUILDER"
 
@@ -46,10 +46,10 @@ docker run -it --rm --net host \
     -e QT_DEBUG_PLUGINS=1 \
     -e PGSERVICEFILE=$PGSERVICEFILE \
     -e PGPASSFILE=$PGPASSFILE \
-    -v $HOME:/home/$USER \
-    -v /tmp/.X11-unix:/tmp/.X11-unix \
-    -v $PG_RUN:/var/run/postgresql \
-    -v $install_dir:/qgis-install \
+    --mount type=bind,source=$HOME,target=/home/$USER \
+    --mount type=bind,source=/tmp/.X11-unix,target=/tmp/.X11-unix \
+    --mount type=bind,source=$PG_RUN,target=/var/run/postgresql \
+    --mount type=bind,source=$install_dir,target=/qgis-install \
     --name qgis-build-env \
     --workdir $(pwd) \
     --hostname=qgis-build-run \
@@ -57,7 +57,7 @@ docker run -it --rm --net host \
     $DOCKER_EXTRA_OPTS $BUILDER qgis
 else
 docker run -it --rm -u $USERID:$GROUPID --net host \
-    -v $(pwd):/home/$USER \
+    --mount type=bind,source=$(pwd),target=/home/$USER \
     --workdir /home/$USER \
     -e HOME=/home/$USER \
     --hostname=qgis-build \

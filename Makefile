@@ -5,9 +5,7 @@
 BUILDID=$(shell date +"%Y%m%d%H%M")
 COMMITID=$(shell git rev-parse --short HEAD)
 
-TARGET:=bullseye
-
-# Change this to 'custom' if gdal/proj must no be installed from
+# Change this to 'custom' if gdal/proj must not be installed from
 # default packages
 GDAL_INSTALL:=default
 
@@ -18,11 +16,11 @@ QGIS_VERSION:=master
 QGIS_GITURL:=https://github.com/qgis/QGIS.git
 
 BASE_IMAGE_NAME:=qgis
-IMAGE_NAME:=$(BASE_IMAGE_NAME):$(QGIS_VERSION)-$(TARGET)
-BUILDER_DEPS_IMAGE_NAME=qgis-build-deps:$(TARGET)
-BUILDER_IMAGE_NAME=qgis-builder:$(QGIS_VERSION)-$(TARGET)
+IMAGE_NAME:=$(BASE_IMAGE_NAME):$(QGIS_VERSION)
+BUILDER_DEPS_IMAGE_NAME=qgis-build-deps:latest
+BUILDER_IMAGE_NAME=qgis-builder:$(QGIS_VERSION)
 
-DOCKERFILE=Dockerfile.$(TARGET)
+DOCKERFILE=Dockerfile
 
 BUILD_ARGS=\
   --build-arg="QGIS_VERSION=$(QGIS_VERSION)" \

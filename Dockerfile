@@ -86,7 +86,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && dpkg-divert --local --rename --add 
     python3-tz \
     python3-numpy \
     python3-owslib \
-    python3-xml \
+    python3-lxml \
     qt5keychain-dev \
     qt3d5-dev \
     qt3d-gltfsceneio-plugin \
@@ -150,6 +150,13 @@ RUN if [ "$GDAL_INSTALL" = "default" ]; then \
     gdal-bin \
   && apt-get clean; fi
 
+# Extra buid library as of Qgis 3.34
+RUN export DEBIAN_FRONTEND=noninteractive && apt-get install -y --no-install-recommends \
+    libpdal-dev \
+    libdraco-dev \
+    qtmultimedia5-dev \
+    && apt-get clean
+ 
 # Set uid root on Xvfb
 RUN chmod u+s /usr/bin/Xvfb
 
@@ -245,6 +252,7 @@ RUN export DEBIAN_FRONTEND=noninteractive \
     libqwt-qt5-6 \
     libqt5quickwidgets5 \ 
     libqt5serialport5 \
+    libqt5Multimedia5 \
     qt5-image-formats-plugins \
     libsqlite3-mod-spatialite \
     python3-dateutil \
@@ -298,6 +306,7 @@ ENV QGIS_DISABLE_MESSAGE_HOOKS=1
 ENV QGIS_NO_OVERRIDE_IMPORT=1
 
 COPY --from=builder /qgis-install/ /usr/
+COPY --from=builder /usr/lib/x86_64-linux-gnu/qt5 usr/lib/x86_64-linux-gnu/
 
 RUN ldconfig /usr/lib && \
     cd /usr/lib/python3/dist-packages/ && ln -s /usr/share/qgis/python/qgis
